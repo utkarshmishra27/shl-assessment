@@ -22,44 +22,65 @@
     <button id="go">Recommend</button>
   </div>
   <div id="status" style="margin-top:8px;color:#666"></div>
+
+  <!-- ⭐ Updated table: ONLY Name, URL, Duration -->
   <table id="results" style="display:none">
-    <thead><tr><th>Name</th><th>URL</th></tr></thead>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>URL</th>
+        <th>Duration</th>
+      </tr>
+    </thead>
     <tbody></tbody>
   </table>
 
   <script>
     const apiUrl = localStorage.getItem('API_URL') || "https://shl-assessment-3.onrender.com/recommend";
+
     document.getElementById('go').onclick = async () => {
       const q = document.getElementById('query').value.trim();
       const top_k = parseInt(document.getElementById('topk').value || "5", 10);
       if(!q){ alert("Enter a query"); return; }
+
       document.getElementById('status').textContent = "Calling API...";
+
       try {
         const res = await fetch(apiUrl, {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
           body: JSON.stringify({query: q, top_k: top_k})
         });
+
         if(!res.ok){ throw new Error("API error: " + res.status); }
+
         const data = await res.json();
         const list = data.recommended_assessments || data;
+
         const tbody = document.querySelector('#results tbody');
         tbody.innerHTML = '';
+
         for(const item of list){
           const tr = document.createElement('tr');
+
           const nameTd = document.createElement('td');
           const urlTd = document.createElement('td');
-          const typeTd = document.createElement('td');
           const durTd = document.createElement('td');
+
           nameTd.textContent = item.name || '';
           urlTd.innerHTML = `<a href="${item.url}" target="_blank">${item.url}</a>`;
-          typeTd.textContent = (item.test_type || []).join('; ');
           durTd.textContent = item.duration || '';
-          tr.appendChild(nameTd); tr.appendChild(urlTd); tr.appendChild(typeTd); tr.appendChild(durTd);
+
+          tr.appendChild(nameTd);
+          tr.appendChild(urlTd);
+          tr.appendChild(durTd);
+
           tbody.appendChild(tr);
         }
+
         document.getElementById('results').style.display = 'table';
         document.getElementById('status').textContent = `Returned ${list.length} results.`;
+
       } catch (err) {
         document.getElementById('status').textContent = 'Error: ' + err.message;
       }
