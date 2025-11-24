@@ -28,11 +28,11 @@ ALLOWED_ORIGINS = [
     "http://localhost:3000",   # local React or static test
     "http://127.0.0.1:3000",
     "http://localhost:63342/shl/index.html?_ijt=2mtlun21a85k55dr5bhu0eot2u&_ij_reload=RELOAD_ON_SAVE",
-    "https://your-frontend-domain.vercel.app",  # replace after deploy
+    "https://utkarshmishra27-shl-assessment.vercel.app/",  # replace after deploy
 ]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], #ALLOWED_ORIGINS,
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
