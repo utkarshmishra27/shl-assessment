@@ -29,7 +29,6 @@
       <tr>
         <th>Name</th>
         <th>URL</th>
-        <th>Duration</th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -65,15 +64,15 @@
 
           const nameTd = document.createElement('td');
           const urlTd = document.createElement('td');
-          const durTd = document.createElement('td');
+         
 
           nameTd.textContent = item.name || '';
           urlTd.innerHTML = `<a href="${item.url}" target="_blank">${item.url}</a>`;
-          durTd.textContent = item.duration || '';
+          
 
           tr.appendChild(nameTd);
           tr.appendChild(urlTd);
-          tr.appendChild(durTd);
+          
 
           tbody.appendChild(tr);
         }
